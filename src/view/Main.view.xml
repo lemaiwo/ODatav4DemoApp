@@ -4,17 +4,16 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 
-	<MessagePage
-		title="{i18n>app_title}"
-		text="{i18n>app_title}"
-		icon="sap-icon://accept"
-		id="page"
-		description="{i18n>app_description}">
-		<buttons>
-			<Button
-				text="{i18n>btn_text}"
-				press="sayHello" />
-		</buttons>
-	</MessagePage>
+	<Page title="{i18n>title}">
+		<headerContent>
+			<Button icon="sap-icon://add" tooltip="Generate" press=".generateNewSupplier"/>
+		</headerContent>
+		<content>
+			<ProgressIndicator class="sapUiSmallMarginBottom" percentValue="{view>/progress}" showValue="false" state="None"/>
+			<List headerText="Suppliers" items="{ path: 'nw>/Suppliers' }">
+				<StandardListItem title="{nw>ID} {nw>Name}"/>
+			</List>
+		</content>
+	</Page>
 
 </mvc:View>

@@ -9,6 +9,16 @@
 		"description": "{{app_description}}",
 		"applicationVersion": {
 			"version": "1.0.0"
+		},
+		"dataSources": {
+			"Northwind.svc": {
+				"uri": "/Experimental/OData/(S(hiysv0nctx2qngza53iyuzqw))/OData.svc/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
 		}
 	},
 
@@ -55,6 +65,17 @@
 				"settings": {
 					"bundleName": "be.wl.ODatav4DemoApp.i18n.i18n"
 				}
+			},
+			"": {
+				"dataSource": "Northwind.svc",
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"autoExpandSelect" : true,
+					"earlyRequests": true,
+					"operationMode" : "Server",
+					"synchronizationMode" : "None"
+				},
+				"preload": false
 			}
 		},
 
