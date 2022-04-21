@@ -17,8 +17,8 @@ server:
     configuration:
       ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
       backend:
-      - path: /Experimental
-        url: https://services.odata.org/
+      - path: /catalog
+        url: http://localhost:4004/
   - name: ui5-middleware-livereload
     afterMiddleware: compression
     configuration:

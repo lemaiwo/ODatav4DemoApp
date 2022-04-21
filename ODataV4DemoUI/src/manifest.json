@@ -12,7 +12,7 @@
 		},
 		"dataSources": {
 			"Northwind.svc": {
-				"uri": "/Experimental/OData/(S(hiysv0nctx2qngza53iyuzqw))/OData.svc/",
+				"uri": "/catalog/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "4.0",
