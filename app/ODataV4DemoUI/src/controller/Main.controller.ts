@@ -6,7 +6,7 @@ import FilterOperator from "sap/ui/model/FilterOperator";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
 import MessageToast from "sap/m/MessageToast";
-import NorthwindService, { BookEntity } from "../service/NorthwindService";
+import BookService, { BookEntity } from "../service/BookService";
 import Log from "sap/base/Log";
 import UI5Event from "sap/ui/base/Event";
 
@@ -14,9 +14,9 @@ import UI5Event from "sap/ui/base/Event";
  * @namespace be.wl.ODatav4DemoApp.controller
  */
 export default class Main extends BaseController {
-	private northwindService:NorthwindService;
+	private bookService:BookService;
 	public onInit() : void {
-		this.northwindService = new NorthwindService(this.getOwnerComponent().getModel() as ODataModel);
+		this.bookService = new BookService(this.getOwnerComponent().getModel() as ODataModel);
 		this.getRouter().getRoute("main").attachPatternMatched((event: UI5Event) => this.onObjectMatched(event), this);
 		this.getView().setModel(new JSONModel({progress:0}),"view");
 	}
@@ -35,48 +35,48 @@ export default class Main extends BaseController {
 			const meta = metaModel.getMetadata();
 			
 			try {
-				const supplier = await this.northwindService.getSupplierById(1);
+				const book = await this.bookService.getBookById(1);
 				model.setProperty("/progress", 30);
-				MessageToast.show("Company name of the first Supplier:" + supplier.title);
+				MessageToast.show("Name of the first Book:" + book.title);
 			} catch (error) {
 				console.error(error);
-				MessageToast.show("Supplier with ID 20 does not exist");
+				MessageToast.show("Book with ID 20 does not exist");
 			}
-			const suppliersFiltered = await this.northwindService.getSuppliersWithFilter(filters);
+			const booksFiltered = await this.bookService.getBooksWithFilter(filters);
 			model.setProperty("/progress", 70);
-			MessageToast.show(`Suppliers in Redmond: ${suppliersFiltered.length}`);
+			MessageToast.show(`Books in Redmond: ${booksFiltered.length}`);
 
-			const suppliers = await this.northwindService.getSuppliers();
+			const books = await this.bookService.getBooks();
 			model.setProperty("/progress", 100);
 			this.getView().setModel(new JSONModel({
-				Suppliers: suppliers
+				Books: books
 			}), "nw");
 		} catch (error) {
 			console.error(error);
 			Log.error("This should never have happened");
 		}
 	}
-	public async generateNewSupplier(event:Event): Promise<void> {
+	public async generateNewBook(event:Event): Promise<void> {
 		const model = (this.getView().getModel("view") as JSONModel);
-		const newSupplier: BookEntity = {
+		const newBook: BookEntity = {
 			ID:0,
 			title: `Test ${new Date().getTime()}`,
 			stock:1
 		};
 		try {
 			model.setProperty("/progress", 20);
-			newSupplier.ID = await this.northwindService.getSupplierNextID();
+			newBook.ID = await this.bookService.getBooksNextID();
 			model.setProperty("/progress", 40);
-			const response = await this.northwindService.createSupplier(newSupplier);
+			const response = await this.bookService.createBook(newBook);
 			model.setProperty("/progress", 60);
-			MessageToast.show(`Supplier ${response.title} created!`);
+			MessageToast.show(`Book ${response.title} created!`);
 		} catch (error) {
-			MessageToast.show("Error when creating Suppliers!");
+			MessageToast.show("Error when creating new book!");
 		}
-		const books = await this.northwindService.getSuppliers();
+		const books = await this.bookService.getBooks();
 		model.setProperty("/progress", 80);
 		this.getView().setModel(new JSONModel({
-			Suppliers: books
+			Books: books
 		}), "nw");
 		model.setProperty("/progress", 100);
 	}

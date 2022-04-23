@@ -6,12 +6,12 @@
 
 	<Page title="{i18n>title}">
 		<headerContent>
-			<Button icon="sap-icon://add" tooltip="Generate" press=".generateNewSupplier"/>
+			<Button icon="sap-icon://add" tooltip="Generate" press=".generateNewBook"/>
 		</headerContent>
 		<content>
 			<ProgressIndicator class="sapUiSmallMarginBottom" percentValue="{view>/progress}" showValue="false" state="None"/>
-			<List headerText="Suppliers" items="{ path: 'nw>/Suppliers' }">
-				<StandardListItem title="{nw>ID} {nw>Name}"/>
+			<List headerText="Books" items="{ path: 'nw>/Books' }">
+				<StandardListItem title="{nw>ID} {nw>title}"/>
 			</List>
 		</content>
 	</Page>

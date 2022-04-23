@@ -7,15 +7,21 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^5",
-    "express": "^4"
+    "express": "^4",
+    "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
     "sqlite3": "^5.0.2"
   },
   "scripts": {
-    "start": "cds run",
-    "watch":"cds watch",
-    "build":"cds build"
+    "install": "cd ./app/ODataV4DemoUI && npm i",
+    "start": "npm-run-all --parallel watch:cap start:ui",
+    "start:cap": "cds run",
+    "start:ui": "cd ./app/ODataV4DemoUI && npm start",
+    "watch:cap": "cds watch",
+    "build:cap": "cds build",
+    "build:ui": "cd ./app/ODataV4DemoUI && npm run build",
+    "build": "npm run build:cap && npm run build:ui"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
