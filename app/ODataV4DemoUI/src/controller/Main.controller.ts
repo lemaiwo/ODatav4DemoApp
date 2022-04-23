@@ -58,6 +58,7 @@ export default class Main extends BaseController {
 	}
 	public async generateNewBook(event:Event): Promise<void> {
 		const model = (this.getView().getModel("view") as JSONModel);
+		model.setProperty("/progress", 0);
 		const newBook: BookEntity = {
 			ID:0,
 			title: `Test ${new Date().getTime()}`,
@@ -65,15 +66,37 @@ export default class Main extends BaseController {
 		};
 		try {
 			model.setProperty("/progress", 20);
+
 			newBook.ID = await this.bookService.getBooksNextID();
+
 			model.setProperty("/progress", 40);
+
 			const response = await this.bookService.createBook(newBook);
+
 			model.setProperty("/progress", 60);
 			MessageToast.show(`Book ${response.title} created!`);
 		} catch (error) {
 			MessageToast.show("Error when creating new book!");
 		}
 		const books = await this.bookService.getBooks();
+		model.setProperty("/progress", 80);
+		this.getView().setModel(new JSONModel({
+			Books: books
+		}), "nw");
+		model.setProperty("/progress", 100);
+	}
+	public async deleteLatestBook(event:Event){
+		const model = (this.getView().getModel("view") as JSONModel);
+		model.setProperty("/progress", 0);
+
+		const isBookDeleted = await this.bookService.deleteLatestBook();
+
+		isBookDeleted && MessageToast.show(`Book is deleted!`);
+		!isBookDeleted && MessageToast.show(`Deleting the last book has failed!`);
+		model.setProperty("/progress", 50);
+
+		const books = await this.bookService.getBooks();
+
 		model.setProperty("/progress", 80);
 		this.getView().setModel(new JSONModel({
 			Books: books

@@ -7,6 +7,7 @@
 	<Page title="{i18n>title}">
 		<headerContent>
 			<Button icon="sap-icon://add" tooltip="Generate" press=".generateNewBook"/>
+			<Button icon="sap-icon://delete" tooltip="Delete latest book" press=".deleteLatestBook"/>
 		</headerContent>
 		<content>
 			<ProgressIndicator class="sapUiSmallMarginBottom" percentValue="{view>/progress}" showValue="false" state="None"/>

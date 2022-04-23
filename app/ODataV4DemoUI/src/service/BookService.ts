@@ -55,4 +55,15 @@ export type BookEntity = {
         return bookContext.getObject() as BookEntity;
         //return this.odata("/Suppliers").post<BookEntity>(supplier);
     }
+    
+    public async deleteLatestBook(): Promise<boolean> {
+        const bookBinding = this.model.bindList("/Books").sort([new Sorter("ID", true)]);
+        const bookContext = await bookBinding.requestContexts(0,1);
+        const deletedBook = await bookContext[0].delete();
+        return !deletedBook;
+        // const supplierPath = this.model.createKey("/Suppliers", {
+        //     ID: id
+        // });
+        // return this.odata(supplierPath).get<SuppliersEntity>();
+    }
  }
