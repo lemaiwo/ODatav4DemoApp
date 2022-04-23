@@ -30,10 +30,7 @@ export default class Main extends BaseController {
 	public async runActions(): Promise<void> {
 		const model = (this.getView().getModel("view") as JSONModel);
 		const filters = [new Filter("title", FilterOperator.Contains, "Jane")];
-		try {
-			const metaModel = (this.getOwnerComponent().getModel() as ODataModel).getMetaModel();
-			const meta = metaModel.getMetadata();
-			
+		try {			
 			try {
 				const book = await this.bookService.getBookById(1);
 				model.setProperty("/progress", 30);
