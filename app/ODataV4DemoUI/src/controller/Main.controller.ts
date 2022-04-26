@@ -31,19 +31,19 @@ export default class Main extends BaseController {
 		const model = (this.getView().getModel("view") as JSONModel);
 		const filters = [new Filter("title", FilterOperator.Contains, "Jane")];
 		try {			
+			const books = await this.bookService.getBooks();
 			try {
 				const book = await this.bookService.getBookById(1);
 				model.setProperty("/progress", 30);
 				MessageToast.show("Name of the first Book:" + book.title);
 			} catch (error) {
 				console.error(error);
-				MessageToast.show("Book with ID 20 does not exist");
+				MessageToast.show("Book with ID 1 does not exist");
 			}
 			const booksFiltered = await this.bookService.getBooksWithFilter(filters);
 			model.setProperty("/progress", 70);
-			MessageToast.show(`Books in Redmond: ${booksFiltered.length}`);
+			MessageBox.show(`Books with title Jane: ${booksFiltered.length}`);
 
-			const books = await this.bookService.getBooks();
 			model.setProperty("/progress", 100);
 			this.getView().setModel(new JSONModel({
 				Books: books
